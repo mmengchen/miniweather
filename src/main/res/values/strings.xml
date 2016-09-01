@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">迷你天气</string>
+    <string name="search_info">输入城市或者邮编号</string>
+    <string-array name="city">
+        <item>葫芦岛</item>
+        <item>北京</item>
+        <item>上海</item>
+        <item>huludao</item>
+    </string-array>
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorAccent">
+    <TextView
+        android:id="@+id/list_item_city_tv_datetime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorFont"
+        android:layout_marginLeft="10dp"
+        android:textSize="20sp"
+        android:text="下午 11:25"/>
+    <TextView
+        android:id="@+id/list_item_city_tv_city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/list_item_city_tv_datetime"
+        android:textColor="@color/colorFont"
+        android:layout_marginLeft="10dp"
+        android:textSize="25sp"
+        android:text="葫芦岛市"
+        />
+    <TextView
+        android:id="@+id/list_item_city_tv_t"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/colorFont"
+        android:textSize="45sp"
+        android:layout_alignParentRight="true"
+        android:text="25°"/>
+</RelativeLayout>

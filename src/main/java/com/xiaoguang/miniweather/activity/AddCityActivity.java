@@ -1,16 +1,15 @@
-package com.xiaoguang.miniweather;
+package com.xiaoguang.miniweather.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
-import com.xiaoguang.base.BaseActivity;
-import com.xiaoguang.bean.Item;
-import com.xiaoguang.control.MyAdapter2;
+import com.xiaoguang.miniweather.R;
+import com.xiaoguang.miniweather.base.BaseActivity;
+import com.xiaoguang.miniweather.model.Item;
+import com.xiaoguang.miniweather.control.MyAdapter2;
 
 import java.util.ArrayList;
 import java.util.List;

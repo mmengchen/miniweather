@@ -1,4 +1,4 @@
-package com.xiaoguang.bean;
+package com.xiaoguang.miniweather.model;
 
 /**
  * 未来一周的天气的类

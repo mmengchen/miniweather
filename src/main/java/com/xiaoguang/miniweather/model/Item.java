@@ -1,4 +1,4 @@
-package com.xiaoguang.bean;
+package com.xiaoguang.miniweather.model;
 
 /**
  * 临时创建用于储存Item的类

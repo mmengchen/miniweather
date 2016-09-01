@@ -1,4 +1,4 @@
-package com.xiaoguang.bean;
+package com.xiaoguang.miniweather.model;
 
 import java.util.List;
 

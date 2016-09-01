@@ -1,4 +1,4 @@
-package com.xiaoguang.miniweather;
+package com.xiaoguang.miniweather.activity;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,12 +16,13 @@ import android.widget.TextView;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.xiaoguang.base.BaseActivity;
-import com.xiaoguang.bean.ItemWeather;
-import com.xiaoguang.bean.Location;
-import com.xiaoguang.bean.Weather;
-import com.xiaoguang.control.MyAdapter;
-import com.xiaoguang.utils.MyUtils;
+import com.xiaoguang.miniweather.R;
+import com.xiaoguang.miniweather.base.BaseActivity;
+import com.xiaoguang.miniweather.model.ItemWeather;
+import com.xiaoguang.miniweather.model.Location;
+import com.xiaoguang.miniweather.model.Weather;
+import com.xiaoguang.miniweather.control.MyAdapter;
+import com.xiaoguang.miniweather.utils.MyUtils;
 
 import java.util.ArrayList;
 import java.util.List;

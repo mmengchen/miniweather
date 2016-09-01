@@ -1,16 +1,12 @@
-package com.xiaoguang.miniweather;
+package com.xiaoguang.miniweather.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import com.xiaoguang.base.BaseActivity;
+import com.xiaoguang.miniweather.R;
+import com.xiaoguang.miniweather.base.BaseActivity;
 
 public class SelectCityActivity extends BaseActivity {
 

@@ -1,4 +1,4 @@
-package com.xiaoguang.control;
+package com.xiaoguang.miniweather.control;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.xiaoguang.bean.ItemWeather;
+import com.xiaoguang.miniweather.model.ItemWeather;
 import com.xiaoguang.miniweather.R;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.xiaoguang.bean;
+package com.xiaoguang.miniweather.model;
 
 /**
  * ListView中item项的参数

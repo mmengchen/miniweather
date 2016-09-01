@@ -1,12 +1,12 @@
-package com.xiaoguang.utils;
+package com.xiaoguang.miniweather.utils;
 
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.xiaoguang.bean.Future;
-import com.xiaoguang.bean.Location;
-import com.xiaoguang.bean.Weather;
+import com.xiaoguang.miniweather.model.Future;
+import com.xiaoguang.miniweather.model.Location;
+import com.xiaoguang.miniweather.model.Weather;
 
 import org.json.JSONArray;
 import org.json.JSONException;

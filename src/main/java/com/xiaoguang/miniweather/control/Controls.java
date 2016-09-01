@@ -1,8 +1,8 @@
-package com.xiaoguang.control;
+package com.xiaoguang.miniweather.control;
 
 import android.util.Log;
 
-import com.xiaoguang.bean.Weather;
+import com.xiaoguang.miniweather.model.Weather;
 
 import org.json.JSONArray;
 import org.json.JSONException;

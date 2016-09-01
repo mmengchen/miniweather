@@ -1,11 +1,11 @@
-package com.xiaoguang.miniweather;
+package com.xiaoguang.miniweather.activity;
 
 import android.util.Log;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
-import com.xiaoguang.bean.Location;
-import com.xiaoguang.utils.MyUtils;
+import com.xiaoguang.miniweather.model.Location;
+import com.xiaoguang.miniweather.utils.MyUtils;
 
 /**
  * BDLocationListener接口有1个方法需要实现： 1.接收异步返回的定位结果，参数是BDLocation类型参数。

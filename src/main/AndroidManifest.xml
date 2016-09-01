@@ -29,15 +29,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         >
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddCityActivity" />
-        <activity android:name=".SelectCityActivity"></activity>
+        <activity android:name=".activity.AddCityActivity" />
+        <activity android:name=".activity.SelectCityActivity"></activity>
         <!--
             声明service组件,使app拥有自己单独的定位service
             2016.08.30修改

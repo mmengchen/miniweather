@@ -1,11 +1,8 @@
-package com.xiaoguang.base;
+package com.xiaoguang.miniweather.base;
 
 import android.os.Build;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
-
-import com.xiaoguang.miniweather.R;
 
 /**
  * 功能 :所有Activity的父类 extends AppCompatActivity

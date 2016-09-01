@@ -1,16 +1,13 @@
-package com.xiaoguang.control;
+package com.xiaoguang.miniweather.control;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.xiaoguang.bean.City;
-import com.xiaoguang.bean.Item;
-import com.xiaoguang.bean.ItemWeather;
+import com.xiaoguang.miniweather.model.Item;
 import com.xiaoguang.miniweather.R;
 
 import java.util.List;

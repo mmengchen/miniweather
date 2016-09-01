@@ -1,4 +1,4 @@
-package com.xiaoguang.bean;
+package com.xiaoguang.miniweather.model;
 
 /**
  * 位置相关信息的实体类

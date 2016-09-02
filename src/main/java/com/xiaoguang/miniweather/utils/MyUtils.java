@@ -135,6 +135,9 @@ public class MyUtils {
         //声明一个Map集合用于存放省市信息
         Map<String,List<String>> citysMap = new HashMap<String, List<String>>();
         //声明一个String类型的集合用于存放城市的信息
+
+        //声明一个Message 对象
+        Message message = new Message();
         List<String> cityList;
         try {
             //获取JsonObject对象
@@ -165,6 +168,9 @@ public class MyUtils {
                         citysMap.put(province,cityList);
                         //暂时打印数据
                         Log.i("myTag","我的城市信息为"+province);
+                        message.what = 1;
+                        message.obj = citysMap;
+                        handler.sendMessage(message);
                     }
                 }else if (requestCode==REQUSEST_WEATTER){//解析天气信息
 
@@ -207,10 +213,8 @@ public class MyUtils {
                     //暂时打印数据
                     Log.i("myTag","请求的天气数据为"+weather);
                     //将天气数据发送到主线程中
-                    Message message = new Message();
                     message.what = 2;
                     message.obj = weather;
-                    handler.sendMessage(message);
                 } else {
                     return;
                 }

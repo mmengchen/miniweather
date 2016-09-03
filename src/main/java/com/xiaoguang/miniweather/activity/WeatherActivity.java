@@ -18,11 +18,9 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.xiaoguang.miniweather.R;
 import com.xiaoguang.miniweather.base.BaseActivity;
-import com.xiaoguang.miniweather.model.ItemWeather;
-import com.xiaoguang.miniweather.model.Location;
-import com.xiaoguang.miniweather.model.Weather;
 import com.xiaoguang.miniweather.control.MyAdapter;
-import com.xiaoguang.miniweather.utils.MyUtils;
+import com.xiaoguang.miniweather.model.ItemWeather;
+import com.xiaoguang.miniweather.model.Weather;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +28,7 @@ import java.util.List;
 /**
  * 主页面的Activity
  */
-public class MainActivity extends BaseActivity{
+public class WeatherActivity extends BaseActivity{
 
     //声明Xml中使用的控件对象
     private Button buttonTest;
@@ -69,25 +67,25 @@ public class MainActivity extends BaseActivity{
     @Override
     protected void onStart() {
         super.onStart();
-        //在APP第一次打开时开始定位
-        synchronized (this){
-            mLocationClient.start();
-        }
+//        //在APP第一次打开时开始定位，存在问题
+//        synchronized (this){
+//            mLocationClient.start();
+//        }
 
-        //获取位置
-        Log.i("myTag","on Start ");
-
-        Location location = MyUtils.location;
-        Log.i("myTag","location 是否为空"+location.toString());
-        //获取省份和城市
-        String province = location.getProvince();
-        String city = location.getCity();
-        //设置UI中的城市信息
-        mTextViewCity.setText(city);
-        //当程序开始启动时获取城市信息
-
-        // 获取天气信息
-        MyUtils.getInfo(handler,2,city,province);
+        //获取位置，由于无法获取位置
+//        Log.i("myTag","on Start ");
+//
+//        Location location = MyUtils.location;
+//        Log.i("myTag","location 是否为空"+location.toString());
+//        //获取省份和城市
+//        String province = location.getProvince();
+//        String city = location.getCity();
+//        //设置UI中的城市信息
+//        mTextViewCity.setText(city);
+//        //当程序开始启动时获取城市信息
+//
+//        // 获取天气信息
+//        MyUtils.getInfo(handler,2,city,province);
     }
 
     @Override
@@ -213,7 +211,7 @@ public class MainActivity extends BaseActivity{
             @Override
             public void onClick(View view) {
                 //跳转到添加城市的界面
-                startActivity(new Intent(MainActivity.this,AddCityActivity.class));
+                startActivity(new Intent(WeatherActivity.this,AddCityActivity.class));
             }
         });
     }

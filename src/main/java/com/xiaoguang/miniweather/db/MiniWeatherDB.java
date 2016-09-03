@@ -64,13 +64,14 @@ public class MiniWeatherDB {
                 Province province = new Province();
                 province.setId(cursor.getInt(cursor.getColumnIndex("id")));
                 province.setProvinceName(cursor.getString(cursor.getColumnIndex("province_name")));
+                list.add(province);
             } while (cursor.moveToNext());
         }
         return list;
     }
-/**
- * 将 City 实例存储到数据库。
- */
+    /**
+     * 将 City 实例存储到数据库。
+     */
     public void saveCity(City city) {
         if (city != null) {
             ContentValues values = new ContentValues();
@@ -91,7 +92,8 @@ public class MiniWeatherDB {
                 City city = new City();
                 city.setId(cursor.getInt(cursor.getColumnIndex("id")));
                 city.setCityName(cursor.getString(cursor.getColumnIndex("city_name")));
-                city.setProvinceId(provinceId); list.add(city);
+                city.setProvinceId(provinceId);
+                list.add(city);
             } while (cursor.moveToNext());
         }
         return list;

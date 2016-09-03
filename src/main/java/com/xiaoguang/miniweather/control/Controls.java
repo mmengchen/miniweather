@@ -227,7 +227,6 @@ public class Controls {
             //断开连接
             connection.disconnect();
 
-
             //进行解析数据
         } catch (MalformedURLException e){
             e.printStackTrace();

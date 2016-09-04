@@ -2,6 +2,7 @@ package com.xiaoguang.miniweather.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -23,6 +24,9 @@ import com.xiaoguang.miniweather.utils.Utility;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 省市遍历的Activity
+ */
 public class ChooseAreaActivity extends BaseActivity {
     public static final int LEVEL_PROVINCE = 0;
     public static final int LEVEL_CITY = 1;
@@ -57,6 +61,12 @@ public class ChooseAreaActivity extends BaseActivity {
      */
     private boolean isFromWeatherActivity;
 
+    /**
+     *
+     *  保存的文件名
+     */
+    private static final String SHAREDPREFERENCES_NAME = "first_pref";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,19 +100,23 @@ public class ChooseAreaActivity extends BaseActivity {
                     Intent intent = new Intent(ChooseAreaActivity.this, WeatherActivity.class);
                     //将bundle放入到intent中
                     intent.putExtra("info",bundle);
+
+                    //将城市信息保存的文件中，用于判读是否选择过城市信息
+                    saveDataFile(selectedProvince.getProvinceName(),selectedCity.getCityName());
                     //跳转到天气的主页面
                     startActivity(intent);
                 }
             }
         });
     }
-
     protected void initData() {
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dataList);
         listView.setAdapter(adapter);
+
         //获取数据库操作对象
         miniWeatherDB =miniWeatherDB.getInstance(this);
-        queryProvinces();  // 加载省级数据
+        // 加载省级数据
+        queryProvinces();
     }
 
     /**
@@ -151,7 +165,8 @@ public class ChooseAreaActivity extends BaseActivity {
 
         //定义连接服务器的地址
         String address  ="http://apicloud.mob.com/v1/weather/citys?key=1686180062336";
-        showProgressDialog();//打开一个对话框
+        //打开一个对话框
+        showProgressDialog();
         //向服务器发送请求
         HttpUtil.sendHttpRequest(address, new HttpCallbackListener() {
             @Override
@@ -188,6 +203,20 @@ public class ChooseAreaActivity extends BaseActivity {
         });
     }
 
+    /**
+     * 将选中的信息保存的文件中
+     * @param province
+     * @param city
+     */
+    private void saveDataFile(String province,String city) {
+        SharedPreferences preferences = getSharedPreferences(SHAREDPREFERENCES_NAME,MODE_PRIVATE);
+        //获取编辑器对象
+        SharedPreferences.Editor  editor = preferences.edit();
+        editor.putBoolean("isFirstRun",false);
+        editor.putString("province",province);
+        editor.putString("city",city);
+        editor.commit();
+    }
     /**
      * 显示进度条对话框
      */

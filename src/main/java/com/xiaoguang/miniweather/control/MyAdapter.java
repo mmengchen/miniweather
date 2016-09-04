@@ -5,11 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.xiaoguang.miniweather.model.ItemWeather;
 import com.xiaoguang.miniweather.R;
+import com.xiaoguang.miniweather.model.ItemWeather;
 
 import java.util.List;
 
@@ -52,8 +51,8 @@ public class MyAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             viewHolder.textViewWeek = ((TextView) view.findViewById(R.id.list_item_tv_week));
             viewHolder.textViewHightT = (TextView) view.findViewById(R.id.list_item_tv_ht);
-            viewHolder.textViewLowT = (TextView) view.findViewById(R.id.list_item_tv_lt);
-            viewHolder.imageViewIcon = (ImageView) view.findViewById(R.id.list_item_iv_weather);
+//            viewHolder.imageViewIcon = (ImageView) view.findViewById(R.id.list_item_iv_weather);
+            viewHolder.textViewWeather = (TextView)view.findViewById(R.id.list_item_tv_weather);
             view.setTag(viewHolder);
         } else {
             viewHolder = ((ViewHolder) view.getTag());
@@ -62,12 +61,10 @@ public class MyAdapter extends BaseAdapter {
         //设置数据
         viewHolder.textViewWeek.setText(itemWeathers.get(i).getItemWeek());
         viewHolder.textViewHightT .setText(itemWeathers.get(i).getHightTemperature());;
-        viewHolder.textViewLowT.setText(itemWeathers.get(i).getLowTemperature());
-        viewHolder.imageViewIcon.setImageResource(itemWeathers.get(i).getItemIcon());;
+        viewHolder.textViewWeather.setText(itemWeathers.get(i).getWeather());
         return view;
     }
     class ViewHolder{
-        TextView textViewWeek,textViewHightT,textViewLowT;
-        ImageView imageViewIcon;
+        TextView textViewWeek,textViewHightT,textViewWeather;
     }
 }

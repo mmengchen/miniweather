@@ -9,11 +9,10 @@ public class ItemWeather {
     //星期
     private String itemWeek;
     //图标
-    private int itemIcon;
+//    private int itemIcon;
+    private String weather;
     //最高温度
     private String hightTemperature;
-    //最低温度
-    private String lowTemperature;
 
     public String getItemWeek() {
         return itemWeek;
@@ -23,12 +22,22 @@ public class ItemWeather {
         this.itemWeek = itemWeek;
     }
 
-    public int getItemIcon() {
-        return itemIcon;
+    //因天气状态不确定，暂时放弃图标
+//    public int getItemIcon() {
+//        return itemIcon;
+//    }
+//
+//    public void setItemIcon(int itemIcon) {
+//        this.itemIcon = itemIcon;
+//    }
+
+
+    public String getWeather() {
+        return weather;
     }
 
-    public void setItemIcon(int itemIcon) {
-        this.itemIcon = itemIcon;
+    public void setWeather(String weather) {
+        this.weather = weather;
     }
 
     public String getHightTemperature() {
@@ -39,11 +48,4 @@ public class ItemWeather {
         this.hightTemperature = hightTemperature;
     }
 
-    public String getLowTemperature() {
-        return lowTemperature;
-    }
-
-    public void setLowTemperature(String lowTemperature) {
-        this.lowTemperature = lowTemperature;
-    }
 }

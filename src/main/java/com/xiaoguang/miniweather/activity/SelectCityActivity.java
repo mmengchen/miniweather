@@ -35,6 +35,7 @@ public class SelectCityActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+
         //定义数组（此处也可以直接使用定义一个字符串数组的方式）
          province = getResources().getStringArray(R.array.city);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout. simple_dropdown_item_1line,province);

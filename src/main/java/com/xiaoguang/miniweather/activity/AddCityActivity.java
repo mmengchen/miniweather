@@ -8,10 +8,12 @@ import android.widget.ListView;
 
 import com.xiaoguang.miniweather.R;
 import com.xiaoguang.miniweather.base.BaseActivity;
-import com.xiaoguang.miniweather.model.Item;
 import com.xiaoguang.miniweather.control.MyAdapter2;
+import com.xiaoguang.miniweather.model.Item;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -51,11 +53,18 @@ public class AddCityActivity extends BaseActivity {
     @Override
     protected void initData() {
         itemList = new ArrayList<Item>();
+        //获取主页面传过来的数据
+        Intent intent = getIntent();
+        String city = intent.getStringExtra("city");
+        String temps = intent.getStringExtra("temps");
         Item item = new Item();
         //此时间应该为获取的获取的本地时间
-        item.setDateTime("下午 23:46");
-        item.setCity("葫芦岛");
-        item.setT("25°");
+        SimpleDateFormat format = new SimpleDateFormat("hh:mm");
+        Date curDate = new Date(System.currentTimeMillis());
+        String time = format.format(curDate);
+        item.setDateTime(time);
+        item.setCity(city);
+        item.setT(temps);
         itemList.add(item);
         //绑定适配器
         listView.setAdapter(new MyAdapter2(this,itemList,R.layout.list_item_city));

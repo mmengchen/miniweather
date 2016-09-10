@@ -1,4 +1,4 @@
-package com.xiaoguang.miniweather.control;
+package com.xiaoguang.miniweather.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,21 +7,21 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.xiaoguang.miniweather.model.Item;
 import com.xiaoguang.miniweather.R;
+import com.xiaoguang.miniweather.model.Item;
 
 import java.util.List;
 
 /**
- * 处理添加天气界面的适配器（以后优化时将放在一个里面写）
- * Created by 11655 on 2016/8/29.
+ * 城市列表的Adapter
+ * Created by 11655 on 2016/9/7.
  */
-public class MyAdapter2 extends BaseAdapter {
+public class CityListAdapter extends BaseAdapter {
     private Context context;
-    private List<Item>  stringList ;
+    private List<Item> stringList ;
     private int itemLayoutID;
 
-    public MyAdapter2(Context context, List<Item> stringList , int itemLayoutID) {
+    public CityListAdapter(Context context, List<Item> stringList , int itemLayoutID) {
         this.context = context;
         this.stringList  = stringList ;
         this.itemLayoutID = itemLayoutID;
@@ -43,7 +43,7 @@ public class MyAdapter2 extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder;
         if (view ==null){
             //根据不同的item 布局ID 显示不同的效果

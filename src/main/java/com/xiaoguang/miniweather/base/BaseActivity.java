@@ -25,12 +25,12 @@ public  abstract class BaseActivity extends AppCompatActivity {
     protected abstract void initView();
 
     /**
-     * 功能:初始化操作，对各个控件的监听事件进行初始化操作
-     */
-    protected abstract void initOperate();
-
-    /**
      * 功能:初始化数据
      */
     protected abstract void initData();
+
+    /**
+     * 功能:初始化操作，对各个控件的监听事件进行初始化操作
+     */
+    protected abstract void initOperate();
 }

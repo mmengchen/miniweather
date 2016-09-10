@@ -4,28 +4,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/bg">
+    android:background="@color/colorBackground">
+    <TextView
+        android:layout_marginTop="30dp"
+        android:id="@+id/act_add_city_tv_line_5"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/line"/>
     <ListView
         android:id="@+id/act_add_city_lv"
-        android:layout_marginTop="30dp"
         android:layout_width="match_parent"
-        android:layout_height="335dp"
-        ></ListView>
-    <ImageButton
-        android:id="@+id/act_add_city_ib_add"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/act_add_city_tv_line_5"
+        ></ListView>
+    <ImageView
+        android:id="@+id/act_add_city_ib_add"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="10dp"
         android:layout_below="@id/act_add_city_lv"
+        android:clickable="true"
         android:src="@drawable/add_btn"
+        android:background="@color/colorBackground"
         android:layout_alignParentRight="true"
         />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/act_add_city_lv"
-        android:layout_marginLeft="10dp"
-        android:layout_alignParentLeft="true"
-        android:textColor="@color/colorFont"
-        android:textSize="25sp"
-        android:text="℃"/>
 </RelativeLayout>

@@ -1,4 +1,4 @@
-package com.xiaoguang.miniweather.control;
+package com.xiaoguang.miniweather.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,15 +13,14 @@ import com.xiaoguang.miniweather.model.ItemWeather;
 import java.util.List;
 
 /**
- * 适配器
- * Created by 11655 on 2016/8/29.
+ * Created by 11655 on 2016/9/7.
  */
-public class MyAdapter extends BaseAdapter {
+public class WeatherListAdapter extends BaseAdapter {
     private Context context;
     private List<ItemWeather> itemWeathers ;
     private int itemLayoutID;
 
-    public MyAdapter(Context context, List<ItemWeather> itemWeathers,int itemLayoutID) {
+    public WeatherListAdapter(Context context, List<ItemWeather> itemWeathers, int itemLayoutID) {
         this.context = context;
         this.itemWeathers = itemWeathers;
         this.itemLayoutID = itemLayoutID;

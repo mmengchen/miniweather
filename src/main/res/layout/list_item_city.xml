@@ -1,8 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:droidicon="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAccent">
+    android:background="@color/colorBackground">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/line" />
     <TextView
         android:id="@+id/list_item_city_tv_datetime"
         android:layout_width="wrap_content"
@@ -11,23 +16,49 @@
         android:layout_marginLeft="10dp"
         android:textSize="20sp"
         android:text="下午 11:25"/>
-    <TextView
-        android:id="@+id/list_item_city_tv_city"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/list_item_city_tv_datetime"
-        android:textColor="@color/colorFont"
-        android:layout_marginLeft="10dp"
-        android:textSize="25sp"
-        android:text="葫芦岛市"
-        />
-    <TextView
-        android:id="@+id/list_item_city_tv_t"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/colorFont"
-        android:textSize="45sp"
-        android:layout_alignParentRight="true"
-        android:text="25°"/>
+    <com.xiaoguang.miniweather.activity.SwipeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_below="@id/list_item_city_tv_datetime">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/list_item_city_tv_city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorFont"
+                android:layout_marginLeft="10dp"
+                android:textSize="25sp"
+                android:text="葫芦岛市"
+                />
+            <TextView
+                android:id="@+id/list_item_city_tv_t"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/colorFont"
+                android:layout_marginLeft="170dp"
+                android:textSize="45sp"
+                android:text="25℃"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="150dp"
+            android:layout_height="50dp">
+            <RelativeLayout
+                android:id="@+id/delete_button"
+                android:clickable="true"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="#ff0000">
+                <View
+                    android:layout_centerInParent="true"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:background="@drawable/trash"/>
+            </RelativeLayout>2
+        </LinearLayout>
+    </com.xiaoguang.miniweather.activity.SwipeLayout>
 </RelativeLayout>

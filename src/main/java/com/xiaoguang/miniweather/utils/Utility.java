@@ -1,5 +1,9 @@
 package com.xiaoguang.miniweather.utils;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -13,18 +17,24 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
- * 解析和处理服务器返回的数据的工具类
+ * 功能：解析和处理服务器返回的数据的工具类
  * Created by 11655 on 2016/9/2.
  */
 public class Utility {
+
+    private static ProgressDialog progressDialog;
+
     /**
-     * 解析和处理服务器返回的省市数据
+     *功能: 解析和处理服务器返回的省市数据
      */
     public synchronized static boolean handleProvincesResponse(MiniWeatherDB miniWeatherDB, String response) {
         if (!TextUtils.isEmpty(response)) {
@@ -74,11 +84,11 @@ public class Utility {
     }
 
     /**
-     * 解析和处理服务器返回的省市数据
+     * 功能:解析和处理服务器返回的省市数据
      * @param response
      * @return
      */
-    public synchronized static Weather handleWeatherResponse(String response){
+    public synchronized static void handleWeatherResponse(Context context,String response){
         Weather weather = null;
         //声明一个数组用于存放未来的天气数据
         List<Future> futureList = new ArrayList<Future>();
@@ -124,11 +134,84 @@ public class Utility {
                 weather.setFutureList(futureList);
                 //暂时打印数据
                 Log.i("myTag", "解析出来的天气数据为" + weather);
+                //将天气数据存储到本地
+                saveWeatherInfo(context,weather);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
 
-        return weather;
+    /**
+     * 功能：将服务器所返回的数据存储到本地本地文件中
+     * @param context
+     * @param weather
+     */
+    public static  void saveWeatherInfo(Context context,Weather weather){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年M月d日", Locale.CHINA);
+        //获取编辑器对象
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        //将天气信息存储到文件中
+        editor.putString("weather",weather.getFutureList().get(0).getNight());
+        editor.putString("temp",weather.getTemperature());
+        editor.putString("update_time",weather.getTime());
+        editor.putInt("count",weather.getFutureList().size());
+        for (int i=1;i<weather.getFutureList().size();i++){
+            String week = weather.getFutureList().get(i).getWeek();
+            String night = weather.getFutureList().get(i).getNight();
+            String temps = weather.getFutureList().get(i).getTemperature();
+            editor.putString("week"+i,week);
+            editor.putString("night"+i,night);
+            editor.putString("temps"+i,temps);
+        }
+        //提交数据
+        editor.commit();
+    }
+
+
+    /**
+     * 功能：获取今天的星期
+     * @return  星期几,（）
+     */
+    public static String getTodayWeek(){
+        final Calendar c = Calendar.getInstance();
+        //获取当前的星期
+        String mWay = String.valueOf(c.get(Calendar.DAY_OF_WEEK));
+        if("1".equals(mWay)){
+            mWay ="天";
+        }else if("2".equals(mWay)){
+            mWay ="一";
+        }else if("3".equals(mWay)){
+            mWay ="二";
+        }else if("4".equals(mWay)){
+            mWay ="三";
+        }else if("5".equals(mWay)){
+            mWay ="四";
+        }else if("6".equals(mWay)){
+            mWay ="五";
+        }else if("7".equals(mWay)){
+            mWay ="六";
+        }
+        return "星期"+mWay;
+    }
+
+    /**
+     * 功能：显示进度条对话框
+     */
+    public static void showProgressDialog(Context context) {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(context);
+            progressDialog.setMessage("正在加载...");
+            progressDialog.setCanceledOnTouchOutside(false);
+        }
+        progressDialog.show();
+    }
+    /**
+     * 功能：关闭进度对话框
+     */
+    public static void closeProgressDialog() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
     }
 }

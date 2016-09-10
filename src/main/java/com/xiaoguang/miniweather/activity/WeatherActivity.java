@@ -1,8 +1,10 @@
 package com.xiaoguang.miniweather.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,10 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xiaoguang.miniweather.R;
+import com.xiaoguang.miniweather.adapter.WeatherListAdapter;
 import com.xiaoguang.miniweather.base.BaseActivity;
-import com.xiaoguang.miniweather.control.MyAdapter;
 import com.xiaoguang.miniweather.model.ItemWeather;
-import com.xiaoguang.miniweather.model.Weather;
 import com.xiaoguang.miniweather.utils.HttpCallbackListener;
 import com.xiaoguang.miniweather.utils.HttpUtil;
 import com.xiaoguang.miniweather.utils.Utility;
@@ -38,11 +39,11 @@ public class WeatherActivity extends BaseActivity implements View.OnTouchListene
     private Button buttonTest;
     private ListView listView;
     private ImageButton imageButtonMenu;
-    private List<ItemWeather> itemWeatherList;
     private static TextView mTextViewCity;
     private TextView mTextViewWeather;
     private static TextView mTextViewTemps;
     private TextView mTextViewTextTody;
+    private TextView mTextViewPublish;
 
     // 顶部刷新视图的view
     private View top;
@@ -82,6 +83,13 @@ public class WeatherActivity extends BaseActivity implements View.OnTouchListene
      * 如果没有更新，则对刷新视图进行操作
      */
     private boolean isLoading = false;
+
+    //判断是否来自ChooseAreaActivity
+    private boolean isFromChooseAreaAtivity = false;
+    /**
+     * 定义的数据源
+     */
+    private List<ItemWeather> itemWeatherList;
     //用于接收城市和省份信息
     private String province;
     private String city;
@@ -91,14 +99,14 @@ public class WeatherActivity extends BaseActivity implements View.OnTouchListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
+        //初始化数据
+        initData();
         initOperate();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        //初始化数据
-        initData();
     }
 
     @Override
@@ -107,17 +115,18 @@ public class WeatherActivity extends BaseActivity implements View.OnTouchListene
         super.immersiveNotification();
 
         //初始化控件
+        top = findViewById(R.id.load_layout);
+        scrollView = (ScrollView) findViewById(R.id.act_main_sv);
+        topTV = (TextView) findViewById(R.id.main_activity_top_tv);
+        mTextViewTextTody = (TextView) findViewById(R.id.act_main_tv_today);
+        mTextViewWeather = (TextView) findViewById(R.id.act_main_tv_weather);
+        mTextViewCity = (TextView) findViewById(R.id.act_main_tv_city);
+        mTextViewTemps = (TextView) findViewById(R.id.act_main_tv_temp);
+        mTextViewPublish = (TextView)findViewById(R.id.act_main_tv_publish);
+        topIv = (ImageView) findViewById(R.id.main_activity_top_iv);
         buttonTest = (Button) findViewById(R.id.act_main_btn_test);
         listView = (ListView) findViewById(R.id.act_main_lv_weekp);
         imageButtonMenu = (ImageButton) findViewById(R.id.act_main_iv_add);
-        mTextViewCity = (TextView) findViewById(R.id.act_main_tv_city);
-        mTextViewTemps = (TextView) findViewById(R.id.act_main_tv_temp);
-        top = findViewById(R.id.load_layout);
-        topTV = (TextView) findViewById(R.id.main_activity_top_tv);
-        topIv = (ImageView) findViewById(R.id.main_activity_top_iv);
-        mTextViewTextTody = (TextView) findViewById(R.id.act_main_tv_today);
-        mTextViewWeather = (TextView) findViewById(R.id.act_main_tv_weather);
-        scrollView = (ScrollView) findViewById(R.id.act_main_sv);
     }
 
     /**
@@ -163,12 +172,18 @@ public class WeatherActivity extends BaseActivity implements View.OnTouchListene
 
         //获取Intent对象
         Intent intent = getIntent();
+        isFromChooseAreaAtivity = intent.getBooleanExtra("isFromChooseAreaAtivity",false);
         //从intent 取出 Bundle
         Bundle bundle = intent.getBundleExtra("info");
         province = bundle.getString("province");
         city = bundle.getString("city");
-        //从服务器获取天气情况
-        queryFromServer(city, province);
+        if(isFromChooseAreaAtivity){
+            //从服务器获取天气情况
+            queryFromServer(city, province);
+        }else{
+            //从本地读取天气情况
+            showWeather();
+        }
         //为控件设置值
         mTextViewCity.setText(city);
     }
@@ -192,33 +207,13 @@ public class WeatherActivity extends BaseActivity implements View.OnTouchListene
         HttpUtil.sendHttpRequest(address, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) {
-                //解析天气数据
-                final Weather weather = Utility.handleWeatherResponse(response);
+                //处理天气情况
+               Utility.handleWeatherResponse(WeatherActivity.this,response);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        //设置天气情况
-                        mTextViewWeather.setText(weather.getFutureList().get(0).getNight());
-                        //设置温度
-                        mTextViewTemps.setText(weather.getTemperature());
-                        //设置今天
-                        mTextViewTextTody.setText("发布时间:" + weather.getTime());
-                        //设置未来天气
-                        itemWeatherList = new ArrayList<ItemWeather>();
-                        for (int i = 1; i < weather.getFutureList().size(); i++) {
-                            ItemWeather itemWeather = new ItemWeather();
-                            itemWeather.setItemWeek(weather.getFutureList().get(i).getWeek());
-                            //图标暂时不进行设置
-                            itemWeather.setWeather(weather.getFutureList().get(i).getNight());
-                            itemWeather.setHightTemperature(weather.getFutureList().get(i).getTemperature());
-                            //向ListView中添加数据
-                            itemWeatherList.add(itemWeather);
-                        }
-                        //绑定适配器
-                        listView.setAdapter(new MyAdapter(WeatherActivity.this, itemWeatherList, R.layout.list_item));
-                        //关闭刷新栏
-                        new ScrollTask().execute(-10);
-                        Toast.makeText(getApplicationContext(), "数据刷新完成", Toast.LENGTH_SHORT).show();
+                        showWeather();
+
                     }
                 });
             }
@@ -227,6 +222,47 @@ public class WeatherActivity extends BaseActivity implements View.OnTouchListene
                 e.printStackTrace();
             }
         });
+    }
+
+    /**
+     * 从 SharedPreferences 文件中读取存储的天气信息，并显示到界面上。
+     *
+     */
+    private void showWeather() {
+        //获取Preferences 对象
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        //读取文件中的天气情况，并显示到控件上
+        //设置天气情况
+        mTextViewWeather.setText(prefs.getString("weather",""));
+        //设置温度
+        mTextViewTemps.setText(prefs.getString("temp",""));
+        //设置今天
+        mTextViewTextTody.setText(Utility.getTodayWeek()+"  今天");
+
+        //设置发布时间
+        mTextViewPublish.setText("发布时间:" + prefs.getString("update_time",""));
+        //获取未来天气的个数
+        int cout = prefs.getInt("count",0);
+        itemWeatherList = new ArrayList<ItemWeather>();
+        //获取出未来的天气
+        for (int i = 1;i<cout;i++){
+            //创建一个 itemweather对象
+            ItemWeather itemWeather = new ItemWeather();
+            String week = prefs.getString("week"+i,"");
+            String night = prefs.getString("night"+i,"");
+            String temps = prefs.getString("temps"+i,"");
+            //为itemweather设置数据
+            itemWeather.setItemWeek(week);
+            itemWeather.setWeather(night);
+            itemWeather.setHightTemperature(temps);
+            //向ListView中添加数据
+            itemWeatherList.add(itemWeather);
+        }
+        //绑定适配器
+        listView.setAdapter(new WeatherListAdapter(WeatherActivity.this, itemWeatherList, R.layout.list_item));
+        //关闭刷新栏
+        new ScrollTask().execute(-10);
+        Toast.makeText(getApplicationContext(), "数据刷新完成", Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -374,6 +410,5 @@ public class WeatherActivity extends BaseActivity implements View.OnTouchListene
                 e.printStackTrace();
             }
         }
-
     }
 }

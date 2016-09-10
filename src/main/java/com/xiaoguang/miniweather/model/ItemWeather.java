@@ -48,4 +48,12 @@ public class ItemWeather {
         this.hightTemperature = hightTemperature;
     }
 
+    @Override
+    public String toString() {
+        return "ItemWeather{" +
+                "itemWeek='" + itemWeek + '\'' +
+                ", weather='" + weather + '\'' +
+                ", hightTemperature='" + hightTemperature + '\'' +
+                '}';
+    }
 }

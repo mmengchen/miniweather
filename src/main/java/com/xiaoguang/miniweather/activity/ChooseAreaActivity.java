@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 省市遍历的Activity
+ * 省市遍历(选择城市)Activity
  */
 public class ChooseAreaActivity extends BaseActivity {
     public static final int LEVEL_PROVINCE = 0;
@@ -60,6 +60,10 @@ public class ChooseAreaActivity extends BaseActivity {
      * 是否从WeatherActivity中跳转过来。
      */
     private boolean isFromWeatherActivity;
+    /**
+     * 是否从WeatherActivity中跳转过来。
+     */
+    private boolean isFromAddCityActivity;
 
     /**
      *
@@ -97,14 +101,24 @@ public class ChooseAreaActivity extends BaseActivity {
                     //将省份和城市信息存放到Bundle中
                     bundle.putString("province",selectedProvince.getProvinceName());
                     bundle.putString("city",selectedCity.getCityName());
-                    Intent intent = new Intent(ChooseAreaActivity.this, WeatherActivity.class);
-                    //将bundle放入到intent中
-                    intent.putExtra("info",bundle);
-
                     //将城市信息保存的文件中，用于判读是否选择过城市信息
                     saveDataFile(selectedProvince.getProvinceName(),selectedCity.getCityName());
-                    //跳转到天气的主页面
-                    startActivity(intent);
+                    //判断是否来自AddCityActivity
+                    if (isFromAddCityActivity){
+                        Intent intent = new Intent(ChooseAreaActivity.this, AddCityActivity.class);
+                        //将bundle放入到intent中
+                        intent.putExtra("info",bundle);
+                        //跳转到Addcity
+                        setResult(5566,intent);
+                        finish();
+                    }else{
+                        Intent intent = new Intent(ChooseAreaActivity.this, WeatherActivity.class);
+                        //将bundle放入到intent中
+                        intent.putExtra("info", bundle);
+                        intent.putExtra("isFromChooseAreaAtivity",true);
+                        //跳转到天气的主页面
+                        startActivity(intent);
+                    }
                 }
             }
         });
@@ -112,7 +126,8 @@ public class ChooseAreaActivity extends BaseActivity {
     protected void initData() {
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dataList);
         listView.setAdapter(adapter);
-
+        //判断是否来自AddCityActivity
+        isFromAddCityActivity = getIntent().getBooleanExtra("isFromAddACtivity",false);
         //获取数据库操作对象
         miniWeatherDB =miniWeatherDB.getInstance(this);
         // 加载省级数据
@@ -166,7 +181,7 @@ public class ChooseAreaActivity extends BaseActivity {
         //定义连接服务器的地址
         String address  ="http://apicloud.mob.com/v1/weather/citys?key=1686180062336";
         //打开一个对话框
-        showProgressDialog();
+        Utility.showProgressDialog(this);
         //向服务器发送请求
         HttpUtil.sendHttpRequest(address, new HttpCallbackListener() {
             @Override
@@ -180,7 +195,7 @@ public class ChooseAreaActivity extends BaseActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            closeProgressDialog();//关闭对话框
+                            Utility.closeProgressDialog();//关闭对话框
                             queryProvinces();//加载省份
                         }
                     });
@@ -194,7 +209,7 @@ public class ChooseAreaActivity extends BaseActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        closeProgressDialog();
+                        Utility.closeProgressDialog();
                         Toast.makeText(ChooseAreaActivity.this,
                                 "加载失败", Toast.LENGTH_SHORT).show();
                     }
@@ -217,26 +232,6 @@ public class ChooseAreaActivity extends BaseActivity {
         editor.putString("city",city);
         editor.commit();
     }
-    /**
-     * 显示进度条对话框
-     */
-    private void showProgressDialog() {
-        if (progressDialog == null) {
-            progressDialog = new ProgressDialog(this);
-            progressDialog.setMessage("正在加载...");
-            progressDialog.setCanceledOnTouchOutside(false);
-        }
-        progressDialog.show();
-    }
-    /**
-     * 关闭进度对话框
-     */
-    private void closeProgressDialog() {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-        }
-    }
-
     /**
      *    捕获 Back 按键，根据当前的级别来判断，此时应该返回市列表、省列表、还是直接退出。
      */

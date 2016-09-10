@@ -10,7 +10,6 @@
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:textColor="@color/colorFont"
-        android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
         android:text="星期二"/>
     <TextView

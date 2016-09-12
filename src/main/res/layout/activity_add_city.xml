@@ -6,23 +6,32 @@
     android:orientation="vertical"
     android:background="@color/colorBackground">
     <TextView
-        android:layout_marginTop="30dp"
-        android:id="@+id/act_add_city_tv_line_5"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/line"/>
+        android:id="@+id/act_add_city_tv_datetime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorFont"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:textSize="20sp"
+        android:text="下午 11:25"/>
     <ListView
         android:id="@+id/act_add_city_lv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/act_add_city_tv_line_5"
+        android:layout_below="@id/act_add_city_tv_datetime"
         ></ListView>
+    <View
+        android:id="@+id/act_add_city_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/line"
+        android:layout_below="@id/act_add_city_lv"/>
     <ImageView
         android:id="@+id/act_add_city_ib_add"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginTop="10dp"
-        android:layout_below="@id/act_add_city_lv"
+        android:layout_below="@id/act_add_city_line"
         android:clickable="true"
         android:src="@drawable/add_btn"
         android:background="@color/colorBackground"

@@ -133,7 +133,7 @@ public class Utility {
                 //设置未来的天气
                 weather.setFutureList(futureList);
                 //暂时打印数据
-                Log.i("myTag", "解析出来的天气数据为" + weather);
+                LogUtil.i("myTag", "解析出来的天气数据为" + weather);
                 //将天气数据存储到本地
                 saveWeatherInfo(context,weather);
             }

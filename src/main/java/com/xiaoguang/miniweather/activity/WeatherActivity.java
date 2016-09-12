@@ -5,10 +5,8 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,8 +19,10 @@ import com.xiaoguang.miniweather.R;
 import com.xiaoguang.miniweather.adapter.WeatherListAdapter;
 import com.xiaoguang.miniweather.base.BaseActivity;
 import com.xiaoguang.miniweather.model.ItemWeather;
+import com.xiaoguang.miniweather.service.AutoUpdateService;
 import com.xiaoguang.miniweather.utils.HttpCallbackListener;
 import com.xiaoguang.miniweather.utils.HttpUtil;
+import com.xiaoguang.miniweather.utils.LogUtil;
 import com.xiaoguang.miniweather.utils.Utility;
 
 import java.io.UnsupportedEncodingException;
@@ -36,7 +36,6 @@ import java.util.List;
 public class WeatherActivity extends BaseActivity implements View.OnTouchListener {
 
     //声明Xml中使用的控件对象
-    private Button buttonTest;
     private ListView listView;
     private ImageButton imageButtonMenu;
     private static TextView mTextViewCity;
@@ -124,7 +123,6 @@ public class WeatherActivity extends BaseActivity implements View.OnTouchListene
         mTextViewTemps = (TextView) findViewById(R.id.act_main_tv_temp);
         mTextViewPublish = (TextView)findViewById(R.id.act_main_tv_publish);
         topIv = (ImageView) findViewById(R.id.main_activity_top_iv);
-        buttonTest = (Button) findViewById(R.id.act_main_btn_test);
         listView = (ListView) findViewById(R.id.act_main_lv_weekp);
         imageButtonMenu = (ImageButton) findViewById(R.id.act_main_iv_add);
     }
@@ -134,15 +132,6 @@ public class WeatherActivity extends BaseActivity implements View.OnTouchListene
      */
     @Override
     protected void initOperate() {
-        //为测试按钮添加事件
-        buttonTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //操作数据
-                //获取位置信息
-                Log.i("myTag", "我正在进行数据测试");
-            }
-        });
         //为图片按钮添加监听事件
         imageButtonMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,10 +141,7 @@ public class WeatherActivity extends BaseActivity implements View.OnTouchListene
                 String city = mTextViewCity.getText().toString().trim();
                 String temps = mTextViewTemps.getText().toString().trim();
                 Intent intent = new Intent(WeatherActivity.this, AddCityActivity.class);
-                intent.putExtra("city", city);
-                intent.putExtra("temps", temps);
                 startActivity(intent);
-
             }
         });
 
@@ -179,13 +165,17 @@ public class WeatherActivity extends BaseActivity implements View.OnTouchListene
         city = bundle.getString("city");
         if(isFromChooseAreaAtivity){
             //从服务器获取天气情况
+            LogUtil.i("myTag","我是从网络上获取的天气");
             queryFromServer(city, province);
         }else{
+            LogUtil.i("myTag","我是从本地获取的天气");
             //从本地读取天气情况
             showWeather();
         }
         //为控件设置值
         mTextViewCity.setText(city);
+        //开启服务
+        startService(new Intent(this, AutoUpdateService.class));
     }
 
     /**

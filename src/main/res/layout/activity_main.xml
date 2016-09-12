@@ -28,87 +28,70 @@
             android:text="下拉刷新"
             android:textSize="12sp" />
     </LinearLayout>
+
     <ScrollView
         android:id="@+id/act_main_sv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp">
-    <LinearLayout
-        android:id="@+id/act_main_top"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="30dp"
-        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/act_main_tv_city"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/act_main_top"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:gravity="center"
-            android:text="北京"
-            android:textColor="@color/colorFont"
-            android:textSize="30sp" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/act_main_tv_weather"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="同步中...."
-            android:textColor="@color/colorFont"
-            android:textSize="20sp" />
+            <TextView
+                android:id="@+id/act_main_tv_city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="北京"
+                android:textColor="@color/colorFont"
+                android:textSize="30sp" />
 
-        <TextView
-            android:id="@+id/act_main_tv_temp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="-----"
-            android:textColor="@color/colorFont"
-            android:textSize="60sp" />
-        <TextView
-            android:id="@+id/act_main_tv_publish"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="15dp"
-            android:text="发布时间"
-            android:textColor="@color/colorFont" />
-        <TextView
-            android:id="@+id/act_main_tv_today"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:text="星期五  今天"
-            android:textColor="@color/colorFont" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@drawable/line"/>
-    </LinearLayout>
+            <TextView
+                android:id="@+id/act_main_tv_weather"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="同步中...."
+                android:textColor="@color/colorFont"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/act_main_tv_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-----"
+                android:textColor="@color/colorFont"
+                android:textSize="60sp" />
+
+            <TextView
+                android:id="@+id/act_main_tv_publish"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:text="发布时间"
+                android:textColor="@color/colorFont" />
+
+            <TextView
+                android:id="@+id/act_main_tv_today"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="星期五  今天"
+                android:textColor="@color/colorFont" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@drawable/line" />
+        </LinearLayout>
     </ScrollView>
-    <LinearLayout
-        android:id="@+id/act_main_center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/act_main_btn_test"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorTransparency"
-            android:text="测试数据"
-            android:textColor="@color/colorFont" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/act_main_tv_line2"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/line" />
 
     <LinearLayout
         android:id="@+id/act_main_bottom"
@@ -120,18 +103,20 @@
             android:id="@+id/act_main_lv_weekp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"/>
+            android:layout_marginLeft="20dp" />
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@drawable/line"/>
+        android:background="@drawable/line" />
+
     <ImageButton
         android:id="@+id/act_main_iv_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/colorTransparency"
-        android:layout_marginTop="10dp"
         android:layout_marginLeft="330dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorTransparency"
         android:src="@drawable/menu" />
 </LinearLayout>

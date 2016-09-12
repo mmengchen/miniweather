@@ -1,18 +1,18 @@
 package com.xiaoguang.miniweather.model;
 
 /**
- * 临时创建用于储存Item的类
+ * 用于储存Item的类
  * Created by 11655 on 2016/8/29.
  */
 public class Item {
-    String dateTime,city,t;
+    String province,city,t;
 
-    public String getDateTime() {
-        return dateTime;
+    public String getProvince() {
+        return province;
     }
 
-    public void setDateTime(String dateTime) {
-        this.dateTime = dateTime;
+    public void setProvince(String province) {
+        this.province = province;
     }
 
     public String getCity() {
@@ -30,4 +30,5 @@ public class Item {
     public void setT(String t) {
         this.t = t;
     }
+
 }

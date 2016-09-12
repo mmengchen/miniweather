@@ -66,10 +66,10 @@ public class ChooseAreaActivity extends BaseActivity {
     private boolean isFromAddCityActivity;
 
     /**
-     *
-     *  保存的文件名
+     * 保存的文件名
      */
     private static final String SHAREDPREFERENCES_NAME = "first_pref";
+    private static final String SHAREDPREFERENCES_NAME_CITY = "citys_pref";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,7 +82,7 @@ public class ChooseAreaActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        titleText  = (TextView)findViewById(R.id.title_text);
+        titleText = (TextView) findViewById(R.id.title_text);
         listView = (ListView) findViewById(R.id.list_view);
     }
 
@@ -96,40 +96,43 @@ public class ChooseAreaActivity extends BaseActivity {
                     selectedProvince = provinceList.get(index);
                     queryCities();
                 } else if (currentLevel == LEVEL_CITY) {
-                        selectedCity = cityList.get(index);
+                    selectedCity = cityList.get(index);
                     Bundle bundle = new Bundle();
                     //将省份和城市信息存放到Bundle中
-                    bundle.putString("province",selectedProvince.getProvinceName());
-                    bundle.putString("city",selectedCity.getCityName());
+                    bundle.putString("province", selectedProvince.getProvinceName());
+                    bundle.putString("city", selectedCity.getCityName());
                     //将城市信息保存的文件中，用于判读是否选择过城市信息
-                    saveDataFile(selectedProvince.getProvinceName(),selectedCity.getCityName());
+                    saveDataFile(selectedProvince.getProvinceName(), selectedCity.getCityName());
                     //判断是否来自AddCityActivity
-                    if (isFromAddCityActivity){
+                    if (isFromAddCityActivity) {
                         Intent intent = new Intent(ChooseAreaActivity.this, AddCityActivity.class);
                         //将bundle放入到intent中
-                        intent.putExtra("info",bundle);
-                        //跳转到Addcity
-                        setResult(5566,intent);
+//                        intent.putExtra("info",bundle);
+                        //返回到Addcity
+//                        setResult(5566,intent);
+                        startActivity(intent);
                         finish();
-                    }else{
+                    } else {
                         Intent intent = new Intent(ChooseAreaActivity.this, WeatherActivity.class);
                         //将bundle放入到intent中
                         intent.putExtra("info", bundle);
-                        intent.putExtra("isFromChooseAreaAtivity",true);
+                        intent.putExtra("isFromChooseAreaAtivity", true);
                         //跳转到天气的主页面
                         startActivity(intent);
+                        finish();
                     }
                 }
             }
         });
     }
+
     protected void initData() {
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dataList);
         listView.setAdapter(adapter);
         //判断是否来自AddCityActivity
-        isFromAddCityActivity = getIntent().getBooleanExtra("isFromAddACtivity",false);
+        isFromAddCityActivity = getIntent().getBooleanExtra("isFromAddACtivity", false);
         //获取数据库操作对象
-        miniWeatherDB =miniWeatherDB.getInstance(this);
+        miniWeatherDB = miniWeatherDB.getInstance(this);
         // 加载省级数据
         queryProvinces();
     }
@@ -143,7 +146,7 @@ public class ChooseAreaActivity extends BaseActivity {
             dataList.clear();
             for (Province province : provinceList) {
                 dataList.add(province.getProvinceName());
-             }
+            }
             adapter.notifyDataSetChanged();
             listView.setSelection(0);
             titleText.setText("中国");
@@ -153,6 +156,7 @@ public class ChooseAreaActivity extends BaseActivity {
             queryFromServer();
         }
     }
+
     /**
      * 查询城市信息
      */
@@ -161,15 +165,15 @@ public class ChooseAreaActivity extends BaseActivity {
         cityList = miniWeatherDB.loadCities(selectedProvince.getId());
         if (cityList.size() > 0) {
             dataList.clear();
-            for (City city: cityList) {
+            for (City city : cityList) {
                 dataList.add(city.getCityName());
             }
             adapter.notifyDataSetChanged();
             listView.setSelection(0);
-            titleText.setText(""+selectedProvince.getProvinceName());
+            titleText.setText("" + selectedProvince.getProvinceName());
             currentLevel = LEVEL_CITY;
         } else {
-           Toast.makeText(ChooseAreaActivity.this,"加载城市信息失败",Toast.LENGTH_SHORT).show();
+            Toast.makeText(ChooseAreaActivity.this, "加载城市信息失败", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -179,7 +183,7 @@ public class ChooseAreaActivity extends BaseActivity {
     private void queryFromServer() {
 
         //定义连接服务器的地址
-        String address  ="http://apicloud.mob.com/v1/weather/citys?key=1686180062336";
+        String address = "http://apicloud.mob.com/v1/weather/citys?key=1686180062336";
         //打开一个对话框
         Utility.showProgressDialog(this);
         //向服务器发送请求
@@ -188,7 +192,7 @@ public class ChooseAreaActivity extends BaseActivity {
             public void onFinish(String response) {
                 //设置一个标记
                 boolean result = false;
-                result  = Utility.handleProvincesResponse(miniWeatherDB,response);
+                result = Utility.handleProvincesResponse(miniWeatherDB, response);
 
                 if (result) {//判断返回值
                     // 通过 runOnUiThread()方法回到主线程处理逻辑
@@ -220,20 +224,35 @@ public class ChooseAreaActivity extends BaseActivity {
 
     /**
      * 将选中的信息保存的文件中
+     *
      * @param province
      * @param city
      */
-    private void saveDataFile(String province,String city) {
-        SharedPreferences preferences = getSharedPreferences(SHAREDPREFERENCES_NAME,MODE_PRIVATE);
+    private void saveDataFile(String province, String city) {
+        SharedPreferences preferences = null;
+        //更新跳转的页面不同，保存不同的文件
+        if (!isFromAddCityActivity) {
+            preferences = getSharedPreferences(SHAREDPREFERENCES_NAME, MODE_PRIVATE);
+            //获取编辑器对象
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("isFirstRun", false);
+            editor.putString("province", province);
+            editor.putString("city", city);
+            editor.commit();
+        }
+        preferences = getSharedPreferences(SHAREDPREFERENCES_NAME_CITY, MODE_APPEND);
+        //获取存储城市的个数
+        int count = preferences.getInt("count",0);
         //获取编辑器对象
-        SharedPreferences.Editor  editor = preferences.edit();
-        editor.putBoolean("isFirstRun",false);
-        editor.putString("province",province);
-        editor.putString("city",city);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("count",(count+1));
+        editor.putString("province"+(count+1), province);
+        editor.putString("city"+(count+1), city);
         editor.commit();
     }
+
     /**
-     *    捕获 Back 按键，根据当前的级别来判断，此时应该返回市列表、省列表、还是直接退出。
+     * 捕获 Back 按键，根据当前的级别来判断，此时应该返回市列表、省列表、还是直接退出。
      */
     @Override
     public void onBackPressed() {
